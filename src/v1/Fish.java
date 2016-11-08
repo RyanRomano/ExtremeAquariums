@@ -1,9 +1,5 @@
 package v1;
-
-/**
- * Created by ryan on 11/8/16.
- */
-public abstract class Fish implements Behavior{
+public class Fish implements Behavior{
     private int volume;
     private int aggressionLevel;
     private int swimmingLevel;
@@ -19,6 +15,7 @@ public abstract class Fish implements Behavior{
         this.o2DecreaseFactor = o2DecreaseFactor;
         this.co2IncreaseFactor = co2IncreaseFactor;
         this.nh4IncreaseFactor = nh4IncreaseFactor;
+
     }
 
     public void decreaseO2(){

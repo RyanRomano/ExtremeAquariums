@@ -9,15 +9,15 @@ public class Tank {
     private ArrayList<Fish> fishList;
     private ArrayList<TankComponent> componentsList;
     private Water water;
-    private boolean waterType;
+    private boolean freshWater;
 
     public Tank(int volume, boolean waterType){
 
         this.currentVolume = 0;
         this.tankVolume = volume;
         this.water = new Water(waterType);
-        this.fishList = new ArrayList<Fish>();
-        this.componentsList = new ArrayList<TankComponent>();
+        this.fishList = new ArrayList<>();
+        this.componentsList = new ArrayList<>();
 
     }
 
@@ -36,7 +36,7 @@ public class Tank {
     }
 
     public boolean isWaterType() {
-        return waterType;
+        return freshWater;
     }
 
     public Water getWater() {
@@ -62,7 +62,7 @@ public class Tank {
     }
 
     public void setWaterType(boolean waterType) {
-        this.waterType = waterType;
+        this.freshWater = waterType;
     }
 
     public void setWater(Water water) {
@@ -76,9 +76,9 @@ public class Tank {
 
     public void addFish(Fish fish){
 
-        if(fish.getSize() + currentVolume <= tankVolume){
+        if(fish.getVolume() + currentVolume <= tankVolume){
             fishList.add(fish);
-            currentVolume += fish.getSize();
+            currentVolume += fish.getVolume();
         }else{
             //TODO tell user tank is full
         }
@@ -88,7 +88,7 @@ public class Tank {
     public void removeFish(Fish fish){
         if(fishList.contains(fish)){
             fishList.remove(fish);
-            currentVolume -= fish.getSize();
+            currentVolume -= fish.getVolume();
         }else{
             //TODO tell user fish doesn't exist
         }
