@@ -1,9 +1,7 @@
 package v1;
 
 public interface Behavior {
-
-    public abstract void setSwimmingLevel();
-
-    public abstract void setAggressionLevel();
+    public abstract void setSwimmingLevel(int level);
+    public abstract void setAggressionLevel(int level);
 
 }

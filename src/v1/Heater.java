@@ -4,10 +4,9 @@ package v1;
  * Created by ryan on 11/8/16.
  */
 public class Heater extends TankComponent {
-    private int volume;
     //vol in cubic inches
     public Heater(){
-        this.volume = 1;
+        super(1);
     }
 
     public void increaseWaterTemp(){

@@ -39,67 +39,67 @@ public class Water {
         return freshWater;
     }
 
-//    public void setFreshWater(boolean freshWater) {
-//        this.freshWater = freshWater;
-//    }
+    public void setFreshWater(boolean freshWater) {
+        this.freshWater = freshWater;
+    }
 
     public static int getTemperature() {
         return temperature;
     }
-//
-//    public static void setTemperature(int temperature) {
-//        if (temperature <= MAX_TEMPERATURE && temperature >= MIN_TEMPERATURE) {
-//            Water.temperature = temperature;
-//        }
-//    }
+
+    public static void setTemperature(int temperature) {
+        if (temperature <= MAX_TEMPERATURE && temperature >= MIN_TEMPERATURE) {
+            Water.temperature = temperature;
+        }
+    }
 
     public static int getCo2() {
         return co2;
     }
-//
-//    public static void setCo2(int co2) {
-//        if ( co2 <= MAX_CO2 && co2 >= MIN_CO2) {
-//            Water.co2 = co2;
-//        }
-//    }
+
+    public static void setCo2(int co2) {
+        if ( co2 <= MAX_CO2 && co2 >= MIN_CO2) {
+            Water.co2 = co2;
+        }
+    }
 
     public static int getO2() {
         return o2;
     }
-//
-//    public static void setO2(int o2) {
-//        if (o2 <= MAX_O2 && o2 >= MIN_O2){
-//            Water.o2 = o2;
-//        }
-//    }
+
+    public static void setO2(int o2) {
+        if (o2 <= MAX_O2 && o2 >= MIN_O2){
+            Water.o2 = o2;
+        }
+    }
 
     public static int getNh4() {
         return nh4;
     }
-//
-//    public static void setNh4(int nh4) {
-//        if (nh4 <= MAX_NH4 && nh4 >= MIN_NH4) {
-//            Water.nh4 = nh4;
-//        }
-//    }
+
+    public static void setNh4(int nh4) {
+        if (nh4 <= MAX_NH4 && nh4 >= MIN_NH4) {
+            Water.nh4 = nh4;
+        }
+    }
 
     public static int getpH() {
         return pH;
     }
-//
-//    public static void setpH(int pH) {
-//        if (pH <= MAX_PH && pH >= MIN_PH) {
-//            Water.pH = pH;
-//        }
-//    }
+
+    public static void setpH(int pH) {
+        if (pH <= MAX_PH && pH >= MIN_PH) {
+            Water.pH = pH;
+        }
+    }
 
     public static int getHardness() {
         return hardness;
     }
 
-//    public static void setHardness(int hardness) {
-//        if (hardness <= MAX_HARDNESS && hardness >= MIN_HARDNESS) {
-//            Water.hardness = hardness;
-//        }
-//    }
+    public static void setHardness(int hardness) {
+        if (hardness <= MAX_HARDNESS && hardness >= MIN_HARDNESS) {
+            Water.hardness = hardness;
+        }
+    }
 }
