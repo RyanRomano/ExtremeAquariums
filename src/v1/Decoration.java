@@ -6,7 +6,7 @@ package v1;
 public class Decoration extends TankComponent {
     private String decorationName;
     public Decoration(int volume, String decorationName){
-        super(volume);
+        super(volume, decorationName);
         this.decorationName = decorationName;
     }
 }

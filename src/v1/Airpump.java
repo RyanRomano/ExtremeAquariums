@@ -6,8 +6,8 @@ package v1;
 public class Airpump extends TankComponent {
     int o2IncreaseFactor;
 
-    public Airpump(int o2IncreaseFactor){
-        super(1);
+    public Airpump(int o2IncreaseFactor, String name){
+        super(1, name);
         this.o2IncreaseFactor = o2IncreaseFactor;
         increaseO2();
     }

@@ -9,8 +9,6 @@ public class Tank {
     private ArrayList<Fish> fishList;
     private ArrayList<TankComponent> componentsList;
     private Water water;
-    private boolean freshWater;
-
     public Tank(int volume, boolean waterType){
 
         this.currentVolume = 0;
@@ -18,7 +16,6 @@ public class Tank {
         this.water = new Water(waterType);
         this.fishList = new ArrayList<>();
         this.componentsList = new ArrayList<>();
-
     }
 
 
@@ -36,7 +33,7 @@ public class Tank {
     }
 
     public boolean isWaterType() {
-        return freshWater;
+        return water.isFreshWater();
     }
 
     public Water getWater() {
@@ -62,7 +59,7 @@ public class Tank {
     }
 
     public void setWaterType(boolean waterType) {
-        this.freshWater = waterType;
+        this.water.setFreshWater(waterType);
     }
 
     public void setWater(Water water) {
@@ -75,24 +72,69 @@ public class Tank {
 //	}
 
     public void addFish(Fish fish){
+        boolean addFish = false;
+        if (fishList.size() > 0) {
+            for (Fish fishInList : fishList) {
+//TODO FIGURE OUT THE BEHAVIOR COMBINATIONAL LOGIC
 
-        if(fish.getVolume() + currentVolume <= tankVolume){
-            fishList.add(fish);
-            currentVolume += fish.getVolume();
-        }else{
-            //TODO tell user tank is full
+                //                if ((fish.getSwimmingLevel() == fishInList.getSwimmingLevel())
+//                        && (fish.getAggressionLevel() == fishInList.getAggressionLevel())) {
+//                    addFish = true;
+//                }
+//                else if (fish.getSwimmingLevel() != fishInList.getSwimmingLevel()) {
+//                    addFish = true;
+//                }
+//                else {
+//                    addFish = false;
+//                }
+            }
+        }
+        else {
+            addFish = true;
         }
 
+        if ((water.isFreshWater() && fish instanceof FreshwaterFish) || (!water.isFreshWater() && fish instanceof SaltwaterFish)
+                && (addFish)) {
+
+            if (Water.co2 + fish.getCo2IncreaseFactor() <= Water.MAX_CO2 &&
+            Water.o2 - fish.getO2DecreaseFactor() >= Water.MIN_O2 &&
+            Water.nh4 + fish.getNh4IncreaseFactor() <= Water.MAX_NH4) {
+                if (fish.getVolume() + currentVolume <= tankVolume) {
+                    fishList.add(fish);
+                    fish.exchangeChemicals();
+                    currentVolume+= fish.getVolume();
+                }
+                else {
+                    //TODO tell user tank is full
+                    System.out.println("TANK full");
+                }
+            }
+            else {
+                System.out.println("water levels funky");
+
+            }
+        }
+        else {
+            //TODO FISH AND TANK NOT SAME WATER TYPE THROW CUSTOM EXCEPTION MAYBE
+            String FreshOrSalt;
+            if(water.isFreshWater()){
+                FreshOrSalt = "Fresh water";
+            }
+            else {
+                FreshOrSalt = "Salt water";
+            }
+            System.out.println(fish.getClass().getSimpleName() + " fish being added to " + FreshOrSalt);
+        }
     }
 
     public void removeFish(Fish fish){
         if(fishList.contains(fish)){
             fishList.remove(fish);
             currentVolume -= fish.getVolume();
+            System.out.println("fish removed");
         }else{
             //TODO tell user fish doesn't exist
         }
-
     }
 
     public void addComponent(TankComponent component){
@@ -101,7 +143,7 @@ public class Tank {
             componentsList.add(component);
             currentVolume += component.getVolume();
         }else{
-            //TODO tell user tank is full
+            System.out.println("Tank is full");
         }
     }
 

@@ -6,43 +6,31 @@ public class Fish implements Behavior{
     private int o2DecreaseFactor;
     private int co2IncreaseFactor;
     private int nh4IncreaseFactor;
+    private String fishName;
 
     public Fish(int volume, int aggressionLevel, int swimmingLevel, int o2DecreaseFactor, int co2IncreaseFactor,
-                int nh4IncreaseFactor){
+                int nh4IncreaseFactor, String fishName){
         this.volume = volume;
         this.aggressionLevel = aggressionLevel;
         this.swimmingLevel = swimmingLevel;
         this.o2DecreaseFactor = o2DecreaseFactor;
         this.co2IncreaseFactor = co2IncreaseFactor;
         this.nh4IncreaseFactor = nh4IncreaseFactor;
-
+        this.fishName = fishName;
     }
 
-    public void decreaseO2(){
-        if (Water.o2 - this.o2DecreaseFactor >= Water.MIN_O2) {
-            Water.o2 -= this.o2DecreaseFactor;
-        }
-        else {
-            Water.o2 = Water.MIN_O2;
-        }
+    public String getFishName() {
+        return fishName;
     }
 
-    public void increaseCO2() {
-        if(Water.co2 + this.co2IncreaseFactor <= Water.MAX_CO2) {
-            Water.co2 += this.co2IncreaseFactor;
-        }
-        else {
-            Water.co2 = Water.MAX_CO2;
-        }
+    public void setFishName(String fishName) {
+        this.fishName = fishName;
     }
 
-    public void increaseNH4() {
-        if (Water.nh4 + this.nh4IncreaseFactor <= Water.MAX_NH4) {
-            Water.nh4 += this.nh4IncreaseFactor;
-        }
-        else {
-            Water.nh4 = Water.MAX_NH4;
-        }
+    public void exchangeChemicals(){
+        Water.o2 -= this.o2DecreaseFactor;
+        Water.co2 += this.co2IncreaseFactor;
+        Water.nh4 += this.nh4IncreaseFactor;
     }
 
     public int getVolume() {

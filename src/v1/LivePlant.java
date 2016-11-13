@@ -14,7 +14,7 @@ public class LivePlant extends TankComponent {
 
     public LivePlant(int volume, String plantName, int o2IncreaseFactor, int co2DecreaseFactor,
                      int nh4IncreaseFactor){
-        super(volume);
+        super(volume,plantName);
         this.o2IncreaseFactor = o2IncreaseFactor;
         this.co2DecreaseFactor = co2DecreaseFactor;
         this.nh4IncreaseFactor = nh4IncreaseFactor;

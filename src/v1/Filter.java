@@ -9,8 +9,8 @@ public class Filter extends TankComponent {
 
     private int nh4ReductionFactor;
 
-    public Filter(int nh4ReductionFactor){
-        super(1);
+    public Filter(int nh4ReductionFactor, String name){
+        super(1, name);
         this.nh4ReductionFactor = nh4ReductionFactor;
         decreaseNH4();
     }

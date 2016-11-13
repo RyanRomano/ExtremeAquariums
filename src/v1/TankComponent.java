@@ -5,10 +5,24 @@ package v1;
  */
 public class TankComponent {
     private int volume;
+    private String componentName;
 //TODO : getVolume , with a volume field variable
 
-    public TankComponent(int volume){
+    public TankComponent(int volume, String componentName){
         this.volume = volume;
+        this.componentName = componentName;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+    public String getComponentName() {
+        return componentName;
+    }
+
+    public void setComponentName(String componentName) {
+        this.componentName = componentName;
     }
 
     public int getVolume(){

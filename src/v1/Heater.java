@@ -5,8 +5,8 @@ package v1;
  */
 public class Heater extends TankComponent {
     //vol in cubic inches
-    public Heater(){
-        super(1);
+    public Heater(String name){
+        super(1, name);
     }
 
     public void increaseWaterTemp(){
