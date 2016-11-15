@@ -16,22 +16,22 @@ public class ConnorsDriver {
 
     public static ArrayList<TankComponent> createComponentList(){
         ArrayList<TankComponent> tankComponents = new ArrayList<>();
-        TankComponent heater = new Heater("Average Heater");
+//        TankComponent heater = new Heater("Average Heater");
         TankComponent filter = new Filter(40, "Average Filter");
         TankComponent airPump = new Airpump(40, "Average Airpump");
         TankComponent decorationRock = new Decoration(10, "Rock");
         TankComponent seaWeedPlant = new LivePlant(10, "Sea Weed", 30, 20, 20);
-        tankComponents.add(heater);
+//        tankComponents.add(heater);
         tankComponents.add(filter);
         tankComponents.add(airPump);
         tankComponents.add(decorationRock);
         tankComponents.add(seaWeedPlant);
-        tankComponents.add(heater);
+//        tankComponents.add(heater);
         tankComponents.add(filter);
         tankComponents.add(airPump);
         tankComponents.add(decorationRock);
         tankComponents.add(seaWeedPlant);
-        tankComponents.add(heater);
+//        tankComponents.add(heater);
         tankComponents.add(filter);
         tankComponents.add(airPump);
         tankComponents.add(decorationRock);

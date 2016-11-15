@@ -150,8 +150,8 @@ public class TankGUI {
 
 
         //----------------------------------Center Panel-----------------------------
-        JButton btnAdd = new JButton("Add to tank                >>");
-        JButton btnRemove = new JButton("<<   Remove from tank");
+        JButton btnAdd = new JButton("Add >>");
+        JButton btnRemove = new JButton("<< Remove");
         panelAddButtons.add(Box.createVerticalStrut(10));
         panelAddButtons.add(btnAdd);
         panelAddButtons.add(Box.createVerticalStrut(20));
