@@ -1,11 +1,8 @@
 package v1;
-
-import javax.swing.*;
-
 /**
  * Created by ryan on 11/8/16.
  */
-//
+
 public class LivePlant extends TankComponent {
     private String plantName;
     private int o2IncreaseFactor;
