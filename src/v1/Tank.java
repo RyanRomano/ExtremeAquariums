@@ -1,4 +1,5 @@
 package v1;
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Tank {
@@ -67,7 +68,7 @@ public class Tank {
             fishList.add(fish);
         }
         else {
-            System.out.println("Not compatible");
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Not compatible");
         }
     }
 
@@ -110,21 +111,17 @@ public class Tank {
             for (Fish fishAlreadyInTank : fishList) {
                 if (fishAlreadyInTank.getSwimmingLevel() == fish.getSwimmingLevel()) {
                     if (fishAlreadyInTank.getAggressionLevel() == fish.getAggressionLevel()) {
-                        System.out.println("Compatible - same aggression, same level");
                         compatible = true;
                     } else {
-                        System.out.println("Not Compatible - different aggression");
                         compatible = false;
                     }
                 }
                 else {
-                    System.out.println("Compatible - different level");
                     compatible = true;
                 }
             }
         }
         else {
-            System.out.println("Compatible- tank empty");
             compatible = true;
         }
         return compatible;
