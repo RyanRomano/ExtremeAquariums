@@ -1,5 +1,5 @@
 package v1;
-import jdk.nashorn.internal.scripts.JO;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,7 @@ public class TankGUI {
     private ArrayList<Fish> fish;
     private Fish currentFish;
     private Component currentComponent;
-    private DefaultListModel model;
+    private DefaultListModel model;;
 
     //TODO
     private ArrayList<Fish> currentFishInTank = new ArrayList<Fish>();
@@ -39,14 +39,18 @@ public class TankGUI {
     private JPanel pnlYourTank;
     private ArrayList<String> tankList = new ArrayList<String>();
     private JList listTankContents;
-    private ButtonGroup tankSizeButtonGroup;
-    private JRadioButton radioButtonSmall;
-    private JRadioButton radioButtonMedium;
-    private JRadioButton radioButtonLarge;
-    private JRadioButton radioButtonExtraLarge;
-    private ButtonGroup waterTypeButtonGroup;
-    private JRadioButton radioFreshwater;
-    private JRadioButton radioSaltwater;
+    private JLabel lblFishStats;
+    private int selectedTankIndex;
+    private JButton btnReset;
+    private JButton btnBuild;
+
+    JRadioButton radioButtonSmall = new JRadioButton("Small");
+    JRadioButton radioButtonMedium = new JRadioButton("Medium");
+    JRadioButton radioButtonLarge = new JRadioButton("Large");
+    JRadioButton radioButtonExtraLarge = new JRadioButton("Extra Large");
+
+    JRadioButton radioFreshwater = new JRadioButton("Freshwater");
+    JRadioButton radioSaltwater = new JRadioButton("Saltwater");
 
     public TankGUI(Tank tank, ArrayList<TankComponent> components, ArrayList<Fish> fish) {
         this.tank = tank;
@@ -98,11 +102,8 @@ public class TankGUI {
         waterType.setLayout(new BoxLayout(waterType, BoxLayout.Y_AXIS));
 //---------------------------------TANK SIZE OPTIONS------------------------------------
         JLabel tankSizeLabel = new JLabel("Tank Size");
-        tankSizeButtonGroup = new ButtonGroup();
-        radioButtonSmall = new JRadioButton("Small");
-        radioButtonMedium = new JRadioButton("Medium");
-        radioButtonLarge = new JRadioButton("Large");
-        radioButtonExtraLarge = new JRadioButton("Extra Large");
+        ButtonGroup tankSizeButtonGroup = new ButtonGroup();
+
         tankSizeButtonGroup.add(radioButtonSmall);
         tankSizeButtonGroup.add(radioButtonMedium);
         tankSizeButtonGroup.add(radioButtonLarge);
@@ -114,9 +115,8 @@ public class TankGUI {
         tankSize.add(radioButtonExtraLarge);
 //--------------------------------WATER TYPE OPTIONS------------------------------------
         JLabel waterTypeLabel = new JLabel("Water Type");
-        waterTypeButtonGroup = new ButtonGroup();
-        radioFreshwater = new JRadioButton("Freshwater");
-        radioSaltwater = new JRadioButton("Saltwater");
+        ButtonGroup waterTypeButtonGroup = new ButtonGroup();
+
         waterTypeButtonGroup.add(radioFreshwater);
         waterTypeButtonGroup.add(radioSaltwater);
         waterType.add(waterTypeLabel);
@@ -200,7 +200,7 @@ public class TankGUI {
 
         //The fish statistics pane
         JPanel pnlFishStats = new JPanel();
-        JLabel lblFishStats = new JLabel("Freshwater, Bottom swimmer, Aggressive");
+        this.lblFishStats = new JLabel("Freshwater, Bottom swimmer, Aggressive");
         //TODO Change with action listener
         pnlFishStats.add(lblFishStats);
 
@@ -292,9 +292,9 @@ public class TankGUI {
 //----------------------------------------------------------------------------------------------
 //----------------------------------------BOTTOM PANEL------------------------------------------
 //----------------------------------------------------------------------------------------------
-        JButton btnReset = new JButton("Reset");
+        this.btnReset = new JButton("Reset");
         pnlBuild.add(btnReset);
-        JButton btnBuild = new JButton("Build");
+        this.btnBuild = new JButton("Build");
         pnlBuild.add(btnBuild);
         frame.pack();
         frame.setVisible(true);
@@ -308,12 +308,15 @@ public class TankGUI {
 
         this.listFishToAdd.addMouseListener(fishListListener);
         this.btnAdd.addActionListener(addListener);
+        this.listTankContents.addMouseListener(tankListListener);
+        this.btnRemove.addActionListener(removeListener);
         this.radioButtonSmall.addActionListener(tankSizeListener);
         this.radioButtonMedium.addActionListener(tankSizeListener);
         this.radioButtonLarge.addActionListener(tankSizeListener);
         this.radioButtonExtraLarge.addActionListener(tankSizeListener);
         this.radioFreshwater.addActionListener(waterTypeListener);
         this.radioSaltwater.addActionListener(waterTypeListener);
+        this.btnReset.addActionListener(resetListener);
     }
 
     //Inner classes for action listeners
@@ -325,7 +328,6 @@ public class TankGUI {
 
             if (currentFish != null){
                 tank.addFish(currentFish);
-                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), Water.co2 + " - " + Water.o2+ " - " + Water.nh4);
             }
 
             model.removeAllElements();
@@ -337,12 +339,6 @@ public class TankGUI {
             container.validate();
             container.repaint();
 
-//            for(int i = 0; i < tank.getFishList().size(); i++){
-//                System.out.println(tank.getFishList().get(i).getFishName());
-//            }
-
-
-
         }
     };
 
@@ -351,21 +347,41 @@ public class TankGUI {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            if (selectedTankIndex != -1){
+                Fish fish = tank.getFishList().get(selectedTankIndex);
+                model.remove(selectedTankIndex);
+                tank.removeFish(fish);
+            }
+
+            selectedTankIndex = -1;
+
         }
     };
 
     //"Fish List" action listener
     MouseListener fishListListener = new MouseAdapter() {
         public void mouseClicked(MouseEvent e) {
+
             String selectedFish = (String) listFishToAdd.getSelectedValue();
 
             //set current fish
             for(int i = 0; i < fish.size(); i++){
                 if(fish.get(i).getFishName().equals(selectedFish)){
                     currentFish = fish.get(i);
+                    lblFishStats.setText("Size: " + String.valueOf(fish.get(i).getVolume()) +
+                            " Level: " + fish.get(i).getSwimmingLevel() +
+                            " Agression: " + fish.get(i).getAggressionLevel());
+
                 }
             }
-            //Refresh list of fish in tank
+        }
+    };
+
+    //"Tank List" action listener
+    MouseListener tankListListener = new MouseAdapter() {
+        public void mouseClicked(MouseEvent e) {
+
+            selectedTankIndex = listTankContents.getSelectedIndex();
 
         }
     };
@@ -413,10 +429,23 @@ public class TankGUI {
         }
     };
 
-    //Update methods
-    public void updateTankList(){
+    //"Reset" action listener
+    ActionListener resetListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            model.removeAllElements();
+
+            tank.getFishList().removeAll(tank.getFishList());
+
+            selectedTankIndex = -1;
+            Water.co2 = 50;
+            Water.nh4 = 50;
+            Water.o2 = 50;
+            tank.setCurrentVolume(0);
+        }
+    };
 
 
-    }
 
 }

@@ -42,6 +42,10 @@ public class Tank {
         return currentVolume;
     }
 
+    public void setCurrentVolume(int volume) {
+        this.currentVolume = volume;
+    }
+
     public void setTankVolume(int tankVolume) {
         this.tankVolume = tankVolume;
     }
@@ -138,6 +142,9 @@ public class Tank {
         if(fishList.contains(fish)){
             fishList.remove(fish);
             currentVolume -= fish.getVolume();
+            Water.nh4 -= fish.getNh4IncreaseFactor();
+            Water.co2 -= fish.getCo2IncreaseFactor();
+            Water.o2 += fish.getO2DecreaseFactor();
             System.out.println("fish removed");
         }else{
             //TODO tell user fish doesn't exist
