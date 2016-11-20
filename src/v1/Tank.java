@@ -62,13 +62,19 @@ public class Tank {
         this.water = water;
     }
 
-    public void addFish(Fish fish){
+    public boolean addFish(Fish fish){
         if (checkRoomLeft(fish) && checkWaterCompatability(fish)
                 && checkWaterChemicals(fish) && checkBehaviorCompatability(fish)){
             fishList.add(fish);
+            this.currentVolume += fish.getVolume();
+            Water.nh4 += fish.getNh4IncreaseFactor();
+            Water.co2 += fish.getCo2IncreaseFactor();
+            Water.o2 -= fish.getO2DecreaseFactor();
+            return true;
         }
         else {
-            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Not compatible");
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot add");
+            return false;
         }
     }
 
@@ -114,6 +120,7 @@ public class Tank {
                         compatible = true;
                     } else {
                         compatible = false;
+                        break;
                     }
                 }
                 else {
