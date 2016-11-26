@@ -1,5 +1,5 @@
 package v1;
-public class Fish implements Behavior{
+public abstract class Fish implements Behavior{
     private int volume;
     private int aggressionLevel;
     private int swimmingLevel;

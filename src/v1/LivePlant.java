@@ -16,9 +16,6 @@ public class LivePlant extends TankComponent {
         this.co2DecreaseFactor = co2DecreaseFactor;
         this.nh4IncreaseFactor = nh4IncreaseFactor;
         this.plantName = plantName;
-        increaseO2();
-        decreaseCO2();
-        increaseNH4();
     }
 
     public void increaseO2(){
@@ -45,6 +42,37 @@ public class LivePlant extends TankComponent {
         }
         else {
             Water.nh4 = Water.MAX_NH4;
+        }
+    }
+
+    @Override
+    public void affectEnvironment(boolean isAdded) {
+        if (isAdded) {
+            increaseO2();
+            increaseNH4();
+            decreaseCO2();
+        }
+        else {
+            if (Water.o2 - this.o2IncreaseFactor >= Water.MIN_O2) {
+                Water.o2 -= this.o2IncreaseFactor;
+            }
+            else {
+                Water.o2 = Water.MIN_O2;
+            }
+
+            if (Water.nh4 - this.nh4IncreaseFactor >= Water.MIN_NH4) {
+                Water.nh4 -= this.nh4IncreaseFactor;
+            }
+            else {
+                Water.nh4 = Water.MIN_NH4;
+            }
+
+            if(Water.co2 + this.co2DecreaseFactor <= Water.MAX_CO2) {
+                Water.co2 += this.co2DecreaseFactor;
+            }
+            else {
+                Water.co2 = Water.MAX_CO2;
+            }
         }
     }
 }

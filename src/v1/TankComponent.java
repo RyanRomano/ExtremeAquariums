@@ -3,7 +3,7 @@ package v1;
 /**
  * Created by ryan on 11/8/16.
  */
-public class TankComponent {
+public abstract class TankComponent {
     private int volume;
     private String componentName;
 //TODO : getVolume , with a volume field variable
@@ -28,4 +28,6 @@ public class TankComponent {
     public int getVolume(){
         return this.volume;
     }
+
+    public abstract void affectEnvironment(boolean isAdded);
 }

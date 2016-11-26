@@ -9,4 +9,9 @@ public class Decoration extends TankComponent {
         super(volume, decorationName);
         this.decorationName = decorationName;
     }
+
+    @Override
+    public void affectEnvironment(boolean isAdded) {
+        //do nothing just a rock
+    }
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Tank {
 
     private int tankVolume;
-    private int currentVolume;
+    private static int currentVolume;
     private ArrayList<Fish> fishList;
     private ArrayList<TankComponent> componentsList;
     private Water water;

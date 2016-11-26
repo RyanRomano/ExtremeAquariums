@@ -1,7 +1,10 @@
 package v1;
 
+
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,6 +22,7 @@ public class TankGUI {
     private ArrayList<TankComponent> components;
     private ArrayList<Fish> fish;
     private Fish currentFish;
+    private TankComponent currentComp;
     private Component currentComponent;
     private DefaultListModel model;;
 
@@ -34,7 +38,9 @@ public class TankGUI {
     private Container container;
 
     //Variables using listeners
+    private JButton btnViewPreBuilt;
     private JList listFishToAdd;
+    private JList listCompToAdd;
     private JButton btnAddFish;
     private JButton btnAddComp;
     private JButton btnRemove;
@@ -42,9 +48,17 @@ public class TankGUI {
     private ArrayList<String> tankList = new ArrayList<String>();
     private JList listTankContents;
     private JLabel lblFishStats;
+    private JLabel lblCompStats;
     private int selectedTankIndex;
     private JButton btnReset;
     private JButton btnBuild;
+
+    //Color variables
+    Color clrBg = new Color(236, 236, 236);
+    Color clrSecondary = new Color(108, 122, 137);
+    Color clrTextLight = Color.WHITE;
+    Color clrDark = new Color(34, 49, 63);
+
 
     JRadioButton radioButtonSmall = new JRadioButton("Small");
     JRadioButton radioButtonMedium = new JRadioButton("Medium");
@@ -70,7 +84,7 @@ public class TankGUI {
         frame.setMinimumSize(new Dimension(1200, 700));
         container = frame.getContentPane();
         container.setLayout(new BorderLayout());
-        container.setBackground(Color.ORANGE);
+        container.setBackground(clrBg);
 
 //--------------------------------------------------------------------------------------
 //-------------------------------TOP PANEL----------------------------------------------
@@ -78,11 +92,16 @@ public class TankGUI {
 
         pnlHeader = new JPanel();
         pnlHeader.setLayout(new FlowLayout());
-        JLabel lblTankWizard = new JLabel("Custom Tank Wizard");
+        JLabel lblTankWizard = new JLabel("Acme Aquarium's Create Your Own Tank Wizard - ");
+        this.setLightText(lblTankWizard);
         pnlHeader.add(lblTankWizard);
-        JButton viewPreBuilt = new JButton("View Pre-Built");
-        pnlHeader.add(viewPreBuilt);
-        pnlHeader.setBackground(Color.BLUE);
+        this.btnViewPreBuilt = new JButton("View Pre-Built");
+
+        //Set button look
+        this.setButtonLook(btnViewPreBuilt);
+
+        pnlHeader.add(btnViewPreBuilt);
+        pnlHeader.setBackground(clrSecondary);
         container.add(pnlHeader, BorderLayout.NORTH);
 //--------------------------------------------------------------------------------------
 //--------------------------------WEST PANEL--------------------------------------------
@@ -91,7 +110,11 @@ public class TankGUI {
 
         pnlWest = new JPanel();
         pnlWest.setLayout(new FlowLayout());
-        pnlWest.setBackground(Color.RED);
+
+        //Border
+        pnlWest.setBackground(clrBg);
+        pnlWest.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 5, clrSecondary));
+
         pnlWest.setPreferredSize(new Dimension(200,300));
         container.add(pnlWest, BorderLayout.WEST);
 
@@ -104,6 +127,7 @@ public class TankGUI {
         waterType.setLayout(new BoxLayout(waterType, BoxLayout.Y_AXIS));
 //---------------------------------TANK SIZE OPTIONS------------------------------------
         JLabel tankSizeLabel = new JLabel("Tank Size");
+        this.setDarkText(tankSizeLabel);
         ButtonGroup tankSizeButtonGroup = new ButtonGroup();
 
         tankSizeButtonGroup.add(radioButtonSmall);
@@ -115,8 +139,11 @@ public class TankGUI {
         tankSize.add(radioButtonMedium);
         tankSize.add(radioButtonLarge);
         tankSize.add(radioButtonExtraLarge);
+        radioButtonMedium.setSelected(true);
+
 //--------------------------------WATER TYPE OPTIONS------------------------------------
         JLabel waterTypeLabel = new JLabel("Water Type");
+        this.setDarkText(waterTypeLabel);
         ButtonGroup waterTypeButtonGroup = new ButtonGroup();
 
         waterTypeButtonGroup.add(radioFreshwater);
@@ -124,11 +151,13 @@ public class TankGUI {
         waterType.add(waterTypeLabel);
         waterType.add(radioFreshwater);
         waterType.add(radioSaltwater);
+        radioFreshwater.setSelected(true);
 //---------------------------------ADD TO WEST PANEL------------------------------------
         pnlTankAttributes.add(tankSize);
         pnlTankAttributes.add(Box.createVerticalStrut(50));
         pnlTankAttributes.add(waterType);
         pnlTankAttributes.add(Box.createVerticalStrut(50));
+
         pnlWest.add(pnlTankAttributes);
 
 //--------------------------------------------------------------------------------------
@@ -137,41 +166,41 @@ public class TankGUI {
 
         pnlTankContents = new JPanel();
         pnlTankContents.setLayout(new FlowLayout());
-        pnlTankContents.setBackground(Color.pink);
+        pnlTankContents.setBackground(clrBg);
         JPanel panel1 = new JPanel();				//Panel for available items to add
         panel1.setPreferredSize(new Dimension(300, 550));
-        panel1.setBackground(Color.GREEN);
+        panel1.setBackground(clrSecondary);
 
-        JPanel panelAddButtons = new JPanel();		//Panel for add/remove buttons
-        //panelAddButtons.setLayout(new BoxLayout(panelAddButtons, BoxLayout.Y_AXIS));
-        panelAddButtons.setLayout(new FlowLayout());
-        panelAddButtons.setPreferredSize(new Dimension(200, 88));
-        panelAddButtons.setBackground(Color.CYAN);
+        JPanel panelAddSpacing = new JPanel();		//Panel for spacing
+        panelAddSpacing.setLayout(new FlowLayout());
+        panelAddSpacing.setPreferredSize(new Dimension(150, 60));
+        panelAddSpacing.setBackground(clrBg);
 
         JPanel panel2 = new JPanel();				//Panel for added items
         panel2.setPreferredSize(new Dimension(300,550));
-        panel2.setBackground(Color.YELLOW);
+        panel2.setBackground(clrSecondary);
 
 
         pnlTankContents.add(panel1);
-        pnlTankContents.add(panelAddButtons);
+        pnlTankContents.add(panelAddSpacing);
         pnlTankContents.add(panel2);
         container.add(pnlTankContents, BorderLayout.CENTER);
 
         pnlBuild = new JPanel();
         pnlBuild.setLayout(new FlowLayout());
-        pnlBuild.setBackground(Color.MAGENTA);
+        pnlBuild.setBackground(clrSecondary);
         container.add(pnlBuild, BorderLayout.SOUTH);
 
 //--------------------------------------------------------------------------------------
 //--------------------------------ADD TO TANK PANEL-------------------------------------
 //--------------------------------------------------------------------------------------
         JLabel lblAddToTank = new JLabel("Add To Tank");
+        this.setLightText(lblAddToTank);
         panel1.add(lblAddToTank);
 //----------------------------------FISH AVAILABLE PANEL--------------------------------
         JPanel pnlFishToAdd = new JPanel();
         pnlFishToAdd.setLayout(new BoxLayout(pnlFishToAdd, BoxLayout.Y_AXIS));
-        pnlFishToAdd.setPreferredSize(new Dimension(290, 255));
+        pnlFishToAdd.setPreferredSize(new Dimension(290, 252));
         panel1.add(pnlFishToAdd);
         JLabel lblFishToAdd = new JLabel("Fish Available");
         JPanel pnlFishToAddTitle = new JPanel();
@@ -206,6 +235,7 @@ public class TankGUI {
         //Add button for fish
         JPanel pnlAddFishBtn = new JPanel();
         this.btnAddFish = new JButton("Add Fish to Tank");
+        this.setButtonLook(btnAddFish);
         pnlAddFishBtn.add(btnAddFish);
 
         pnlFishList.add(fishScroll);
@@ -217,7 +247,7 @@ public class TankGUI {
 //--------------------------------------------------------------------------------------
         JPanel pnlCompToAdd = new JPanel();
         pnlCompToAdd.setLayout(new FlowLayout());
-        pnlCompToAdd.setPreferredSize(new Dimension(290, 255));
+        pnlCompToAdd.setPreferredSize(new Dimension(290, 253));
         panel1.add(pnlCompToAdd);
         JLabel lblCompToAdd = new JLabel("Tank Components Available");
         JPanel pnlCompToAddTitle = new JPanel();
@@ -236,7 +266,7 @@ public class TankGUI {
         String[] compArray = new String[compList.size()];
         compArray = compList.toArray(compArray);
 
-        JList listCompToAdd = new JList(compArray);
+        this.listCompToAdd = new JList(compArray);
         listCompToAdd.setLayoutOrientation(JList.VERTICAL);
         listCompToAdd.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane compScroll = new JScrollPane(listCompToAdd);
@@ -245,13 +275,14 @@ public class TankGUI {
 
         //The components statistics pane
         JPanel pnlCompStats = new JPanel();
-        JLabel lblCompStats = new JLabel("Powerful filter. Recommended for large tanks.");
+        this.lblCompStats = new JLabel("Powerful filter. Recommended for large tanks.");
         //TODO Change with action listener
         pnlCompStats.add(lblCompStats);
 
         //Add button for components
         JPanel pnlAddCompBtn = new JPanel();
         this.btnAddComp = new JButton("Add Component to Tank");
+        this.setButtonLook(btnAddComp);
         pnlAddCompBtn.add(btnAddComp);
 
         pnlCompList.add(compScroll);
@@ -296,6 +327,7 @@ public class TankGUI {
         //Remove button for tank
         this.btnRemove = new JButton("Remove from tank");
         JPanel pnlRemoveBtn = new JPanel();
+        this.setButtonLook(btnRemove);
         pnlRemoveBtn.add(btnRemove);
 
         //Tank stats panel
@@ -339,8 +371,11 @@ public class TankGUI {
 //----------------------------------------BOTTOM PANEL------------------------------------------
 //----------------------------------------------------------------------------------------------
         this.btnReset = new JButton("Reset");
+        this.setButtonLook(btnReset);
         pnlBuild.add(btnReset);
+
         this.btnBuild = new JButton("Build");
+        this.setButtonLook(btnBuild);
         pnlBuild.add(btnBuild);
         frame.pack();
         frame.setVisible(true);
@@ -353,7 +388,7 @@ public class TankGUI {
     private void addListeners() {
 
         this.listFishToAdd.addMouseListener(fishListListener);
-        this.btnAddFish.addActionListener(addListener);
+        this.btnAddFish.addActionListener(addFishListener);
         this.listTankContents.addMouseListener(tankListListener);
         this.btnRemove.addActionListener(removeListener);
         this.radioButtonSmall.addActionListener(tankSizeListener);
@@ -363,12 +398,16 @@ public class TankGUI {
         this.radioFreshwater.addActionListener(waterTypeListener);
         this.radioSaltwater.addActionListener(waterTypeListener);
         this.btnReset.addActionListener(resetListener);
+        this.btnAddComp.addActionListener(addCompListener);
+        this.listCompToAdd.addMouseListener(compListListener);
+        this.btnViewPreBuilt.addActionListener(prebuiltListener);
+        this.btnBuild.addActionListener(buildListener);
     }
 
     //Inner classes for action listeners
 
-    //"Add" action listener
-    ActionListener addListener = new ActionListener() {
+    //"Add" action listener for fish
+    ActionListener addFishListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -380,6 +419,35 @@ public class TankGUI {
             //TODO working only with added fish right now
             for(int i = 0; i < tank.getFishList().size(); i++){
                 model.addElement(tank.getFishList().get(i).getFishName());
+            }
+            for(int i = 0; i < tank.getComponentsList().size(); i++){
+                model.addElement(tank.getComponentsList().get(i).getComponentName());
+            }
+
+            container.validate();
+            container.repaint();
+
+        }
+    };
+
+    //"Add" action listener for components
+    ActionListener addCompListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+
+            if (currentComp != null){
+                tank.addComponent(currentComp);
+                currentComp.affectEnvironment(true);
+            }
+
+            model.removeAllElements();
+            //TODO working only with added fish right now
+            for(int i = 0; i < tank.getFishList().size(); i++){
+                model.addElement(tank.getFishList().get(i).getFishName());
+            }
+            for(int i = 0; i < tank.getComponentsList().size(); i++){
+                model.addElement(tank.getComponentsList().get(i).getComponentName());
             }
 
             container.validate();
@@ -394,9 +462,19 @@ public class TankGUI {
         public void actionPerformed(ActionEvent e) {
 
             if (selectedTankIndex != -1){
-                Fish fish = tank.getFishList().get(selectedTankIndex);
-                model.remove(selectedTankIndex);
-                tank.removeFish(fish);
+
+                //See if a component and remove it
+                if(selectedTankIndex >= tank.getFishList().size()){
+                    TankComponent component = tank.getComponentsList().get(selectedTankIndex - (tank.getFishList().size()));
+                    model.remove(selectedTankIndex);
+                    tank.removeComponent(component);
+                    component.affectEnvironment(false);
+                }else{
+                    //If a fish remove that
+                    Fish fish = tank.getFishList().get(selectedTankIndex);
+                    model.remove(selectedTankIndex);
+                    tank.removeFish(fish);
+                }
             }
 
             selectedTankIndex = -1;
@@ -404,7 +482,7 @@ public class TankGUI {
         }
     };
 
-    //"Fish List" action listener
+    //"Fish List" mouse listener
     MouseListener fishListListener = new MouseAdapter() {
         public void mouseClicked(MouseEvent e) {
 
@@ -423,7 +501,27 @@ public class TankGUI {
         }
     };
 
-    //"Tank List" action listener
+    //"Component List" mouse listener
+    MouseListener compListListener = new MouseAdapter() {
+        public void mouseClicked(MouseEvent e) {
+
+            String selectedComp = (String) listCompToAdd.getSelectedValue();
+
+            //set current fish
+            for(int i = 0; i < components.size(); i++){
+                if(components.get(i).getComponentName().equals(selectedComp)){
+                    currentComp = components.get(i);
+
+                    //TODO make description for each component
+                    lblCompStats.setText("Add " + components.get(i).getComponentName() + " to your tank.");
+
+
+                }
+            }
+        }
+    };
+
+    //"Tank List" mouse listener
     MouseListener tankListListener = new MouseAdapter() {
         public void mouseClicked(MouseEvent e) {
 
@@ -432,6 +530,7 @@ public class TankGUI {
         }
     };
 
+    //Listener for tank size radio buttons
     ActionListener tankSizeListener= new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -458,6 +557,7 @@ public class TankGUI {
         }
     };
 
+    //Listener for water size radio buttons
     ActionListener waterTypeListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -483,6 +583,7 @@ public class TankGUI {
             model.removeAllElements();
 
             tank.getFishList().removeAll(tank.getFishList());
+            tank.getComponentsList().removeAll(tank.getComponentsList());
 
             selectedTankIndex = -1;
             Water.co2 = 50;
@@ -493,5 +594,100 @@ public class TankGUI {
     };
 
 
+    //"View Pre-built" action listener
+    ActionListener prebuiltListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            //Set tank chemicals to defaults
+            selectedTankIndex = -1;
+            Water.co2 = 50;
+            Water.nh4 = 50;
+            Water.o2 = 50;
+            tank.setCurrentVolume(0);
+
+            //Remove everything already added to the tank
+            model.removeAllElements();
+            tank.getFishList().removeAll(tank.getFishList());
+            tank.getComponentsList().removeAll(tank.getComponentsList());
+
+            //Set the pre-built settings
+            //Set water to freshwater
+            tank.setWaterType(true);
+            radioFreshwater.setSelected(true);
+
+            //Set to size large
+            tank.setTankVolume(150);
+            radioButtonLarge.setSelected(true);
+
+            //Add fish to tank
+            tank.addFish(fish.get(0));		//Add gold fish
+
+            //Add components to tank
+            tank.addComponent(components.get(0));
+            tank.addComponent(components.get(1));
+            tank.addComponent(components.get(2));
+
+
+            //Update JList for fish and components
+            for(int i = 0; i < tank.getFishList().size(); i++){
+                model.addElement(tank.getFishList().get(i).getFishName());
+            }
+            for(int i = 0; i < tank.getComponentsList().size(); i++){
+                model.addElement(tank.getComponentsList().get(i).getComponentName());
+            }
+
+
+            //TODO chemicals for pre-built tank
+//            selectedTankIndex = -1;
+//            Water.co2 = 50;
+//            Water.nh4 = 50;
+//            Water.o2 = 50;
+//            tank.setCurrentVolume(0);
+        }
+    };
+
+
+    //"Build" action listener
+    ActionListener buildListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+
+            //TODO action for when build button is clicked
+            //Create output file with contents in tank (fish/components)
+            //And the tank size/chemical levels
+            //Save to the users computer
+        }
+    };
+
+    //Custom button method
+    private void setButtonLook(JButton button){
+
+        //Custom button
+        button.setBackground(clrDark);
+        button.setForeground(clrTextLight);
+        button.setFocusPainted(false);
+        button.setFont(new Font("Tahoma", Font.BOLD, 12));
+    }
+
+    //Custom light text method
+    private void setLightText(JLabel label){
+
+        label.setForeground(clrTextLight);
+        label.setFont(new Font("Helvetica", Font.BOLD, 16));
+    }
+
+    private void setDarkText(JLabel label){
+
+        label.setForeground(clrDark);
+        label.setFont(new Font("Helvetica", Font.BOLD, 16));
+    }
+
+    private void setMediumText(JLabel label){
+
+        label.setForeground(clrDark);
+        label.setFont(new Font("Helvetica", Font.BOLD, 14));
+    }
 
 }

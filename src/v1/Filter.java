@@ -12,15 +12,22 @@ public class Filter extends TankComponent {
     public Filter(int nh4ReductionFactor, String name){
         super(1, name);
         this.nh4ReductionFactor = nh4ReductionFactor;
-        decreaseNH4();
     }
 
-    public void decreaseNH4(){
-        if (Water.nh4 - nh4ReductionFactor >= Water.MIN_NH4) {
-            Water.nh4 -= nh4ReductionFactor;
+    public void affectEnvironment(boolean isAdded){
+        if (isAdded) {
+            if (Water.nh4 - nh4ReductionFactor >= Water.MIN_NH4) {
+                Water.nh4 -= nh4ReductionFactor;
+            } else {
+                Water.nh4 = Water.MIN_NH4;
+            }
         }
         else {
-            Water.nh4 = Water.MIN_NH4;
+            if (Water.nh4 + nh4ReductionFactor <= Water.MAX_NH4) {
+                Water.nh4 += nh4ReductionFactor;
+            } else {
+                Water.nh4 = Water.MAX_NH4;
+            }
         }
     }
 }
