@@ -1,7 +1,5 @@
-package v1;
+package v2;
 
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -19,8 +17,8 @@ public class Driver {
         ArrayList<TankComponent> tankComponents = new ArrayList<>();
         TankComponent filter = new Filter(40, "Average Filter");
         TankComponent airPump = new Airpump(40, "Average Airpump");
-        TankComponent decorationRock = new Decoration(10, "Rock");
-        TankComponent seaWeedPlant = new LivePlant(10, "Sea Weed", 30, 20, 20);
+        TankComponent decorationRock = new Decoration(15, "Rock");
+        TankComponent seaWeedPlant = new LivePlant(15, "Sea Weed", 30, 20, 20);
         tankComponents.add(filter);
         tankComponents.add(airPump);
         tankComponents.add(decorationRock);

@@ -1,4 +1,5 @@
-package v1;
+package v2;
+
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -556,26 +557,86 @@ public class TankGUI {
     ActionListener tankSizeListener= new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JRadioButton button = (JRadioButton) e.getSource();
-            if (button.getText().equals("Small")){
-                tank.setTankVolume(100);
-                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "100 units");
-            }
-            else if (button.getText().equals("Medium")){
-                tank.setTankVolume(125);
-                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "125 units");
 
-            }
-            else if (button.getText().equals("Large")){
-                tank.setTankVolume(150);
-                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "150 units");
 
-            }
-            else if (button.getText().equals("Extra Large")){
-                tank.setTankVolume(200);
-                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "200 units");
+            if(!(model.isEmpty())){
 
+                int answer = JOptionPane.showConfirmDialog(JOptionPane.getRootFrame(),
+                        "Changing the tank size will reset the tank build. Are you sure you want to change the size?", "", JOptionPane.YES_NO_OPTION);
+
+                if(answer == 0){
+
+                    model.removeAllElements();
+
+                    tank.getFishList().removeAll(tank.getFishList());
+                    tank.getComponentsList().removeAll(tank.getComponentsList());
+
+                    selectedTankIndex = -1;
+                    Water.co2 = 50;
+                    Water.nh4 = 50;
+                    Water.o2 = 50;
+                    Water.hardness = 50;
+                    Water.pH = 7;
+                    tank.setCurrentVolume(0);
+
+                    updateChemicals();
+                    frame.validate();
+                    frame.repaint();
+
+                    JRadioButton button = (JRadioButton) e.getSource();
+                    if (button.getText().equals("Small")){
+                        tank.setTankVolume(100);
+                    }
+                    else if (button.getText().equals("Medium")){
+                        tank.setTankVolume(125);
+
+                    }
+                    else if (button.getText().equals("Large")){
+                        tank.setTankVolume(150);
+
+                    }
+                    else if (button.getText().equals("Extra Large")){
+                        tank.setTankVolume(200);
+
+                    }
+                }else{
+
+                    switch(tank.getTankVolume()){
+                        case 100:
+                            radioButtonSmall.setSelected(true);
+                            break;
+                        case 125:
+                            radioButtonMedium.setSelected(true);
+                            break;
+                        case 150:
+                            radioButtonLarge.setSelected(true);
+                            break;
+                        case 200:
+                            radioButtonExtraLarge.setSelected(true);
+                            break;
+                    }
+
+                }
+
+
+            }else{
+                JRadioButton button = (JRadioButton) e.getSource();
+                if (button.getText().equals("Small")){
+                    tank.setTankVolume(100);
+                }
+                else if (button.getText().equals("Medium")){
+                    tank.setTankVolume(125);
+
+                }
+                else if (button.getText().equals("Large")){
+                    tank.setTankVolume(150);
+
+                }
+                else if (button.getText().equals("Extra Large")){
+                    tank.setTankVolume(200);
+                }
             }
+
 
             updateChemicals();
             frame.validate();
@@ -587,17 +648,69 @@ public class TankGUI {
     ActionListener waterTypeListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JRadioButton button = (JRadioButton)e.getSource();
-            if(button.getText().equals("Freshwater")){
-                tank.setWaterType(true);
-                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Freshwater");
+
+            if(!(model.isEmpty())){
+
+                int answer = JOptionPane.showConfirmDialog(JOptionPane.getRootFrame(),
+                        "Changing the water type will reset the tank build. Are you sure you want to change the water type?", "", JOptionPane.YES_NO_OPTION);
+
+                if(answer == 0){
+
+                    model.removeAllElements();
+
+                    tank.getFishList().removeAll(tank.getFishList());
+                    tank.getComponentsList().removeAll(tank.getComponentsList());
+
+                    selectedTankIndex = -1;
+                    Water.co2 = 50;
+                    Water.nh4 = 50;
+                    Water.o2 = 50;
+                    Water.hardness = 50;
+                    Water.pH = 7;
+                    tank.setCurrentVolume(0);
+
+                    updateChemicals();
+                    frame.validate();
+                    frame.repaint();
+
+                    JRadioButton button = (JRadioButton)e.getSource();
+                    if(button.getText().equals("Freshwater")){
+                        tank.setWaterType(true);
+
+                    }
+                    else if (button.getText().equals("Saltwater")){
+                        tank.setWaterType(false);
+
+                    }
+
+
+                }else{
+
+                    if(tank.getWater().isFreshWater()){
+                        radioFreshwater.setSelected(true);
+                    }else{
+                        radioSaltwater.setSelected(true);
+                    }
+
+                }
+
+
+            }else{
+
+                JRadioButton button = (JRadioButton)e.getSource();
+                if(button.getText().equals("Freshwater")){
+                    tank.setWaterType(true);
+
+                }
+                else if (button.getText().equals("Saltwater")){
+                    tank.setWaterType(false);
+
+                }
 
             }
-            else if (button.getText().equals("Saltwater")){
-                tank.setWaterType(false);
-                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Saltwater");
 
-            }
+
+
 
             updateChemicals();
             frame.validate();

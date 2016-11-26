@@ -1,4 +1,4 @@
-package v1;
+package v2;
 public abstract class Fish implements Behavior{
     private int volume;
     private int aggressionLevel;
@@ -6,6 +6,8 @@ public abstract class Fish implements Behavior{
     private int o2DecreaseFactor;
     private int co2IncreaseFactor;
     private int nh4IncreaseFactor;
+    private int pHIncreaseFactor;
+
     private String fishName;
 
     public Fish(int volume, int aggressionLevel, int swimmingLevel, int o2DecreaseFactor, int co2IncreaseFactor,
@@ -17,6 +19,15 @@ public abstract class Fish implements Behavior{
         this.co2IncreaseFactor = co2IncreaseFactor;
         this.nh4IncreaseFactor = nh4IncreaseFactor;
         this.fishName = fishName;
+        this.pHIncreaseFactor = 1;
+    }
+
+    public int getpHIncreaseFactor() {
+        return pHIncreaseFactor;
+    }
+
+    public void setpHIncreaseFactor(int pHIncreaseFactor) {
+        this.pHIncreaseFactor = pHIncreaseFactor;
     }
 
     public String getFishName() {

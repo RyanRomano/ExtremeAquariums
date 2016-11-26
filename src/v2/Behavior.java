@@ -1,4 +1,4 @@
-package v1;
+package v2;
 
 public interface Behavior {
     public abstract void setSwimmingLevel(int level);

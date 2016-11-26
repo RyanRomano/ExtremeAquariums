@@ -1,4 +1,4 @@
-package v1;
+package v2;
 
 /**
  * Created by ryan on 11/8/16.
@@ -7,7 +7,7 @@ public class Airpump extends TankComponent {
     int o2IncreaseFactor;
 
     public Airpump(int o2IncreaseFactor, String name){
-        super(1, name);
+        super(5, name);
         this.o2IncreaseFactor = o2IncreaseFactor;
     }
 

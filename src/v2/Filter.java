@@ -1,6 +1,4 @@
-package v1;
-
-import java.awt.*;
+package v2;
 
 /**
  * Created by ryan on 11/8/16.
@@ -10,7 +8,7 @@ public class Filter extends TankComponent {
     private int nh4ReductionFactor;
 
     public Filter(int nh4ReductionFactor, String name){
-        super(1, name);
+        super(5, name);
         this.nh4ReductionFactor = nh4ReductionFactor;
     }
 

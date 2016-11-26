@@ -1,8 +1,6 @@
-package v1;
-import jdk.nashorn.internal.scripts.JO;
+package v2;
 
 import javax.swing.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 
 public class Tank {
@@ -71,18 +69,29 @@ public class Tank {
 
     public boolean addFish(Fish fish){
         if (checkRoomLeft(fish) && checkWaterCompatability(fish)
-                && checkWaterChemicals(fish) && checkBehaviorCompatability(fish)){
+                && checkWaterChemicals(fish) && checkBehaviorCompatability(fish) && checkPH(fish)){
             fishList.add(fish);
             this.currentVolume += fish.getVolume();
             Water.nh4 += fish.getNh4IncreaseFactor();
             Water.co2 += fish.getCo2IncreaseFactor();
             Water.o2 -= fish.getO2DecreaseFactor();
+            Water.pH += fish.getpHIncreaseFactor();
             return true;
         }
         else {
             return false;
         }
     }
+
+    public boolean checkPH(Fish fish){
+        if (Water.pH + fish.getpHIncreaseFactor() <= Water.MAX_PH){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
     public boolean checkRoomLeft(Fish fish){
         if (fish.getVolume() + currentVolume <= this.tankVolume){
@@ -156,6 +165,7 @@ public class Tank {
             Water.nh4 -= fish.getNh4IncreaseFactor();
             Water.co2 -= fish.getCo2IncreaseFactor();
             Water.o2 += fish.getO2DecreaseFactor();
+            Water.pH -= fish.getpHIncreaseFactor();
         }else{
             //TODO tell user fish doesn't exist
         }
@@ -165,6 +175,9 @@ public class Tank {
         if(component.getVolume() + currentVolume <= tankVolume){
             componentsList.add(component);
             currentVolume += component.getVolume();
+//            if (component.getClass().getSimpleName().equals("LivePlant")){
+//
+//            }
         }else{
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Not enough space left in the tank.");
         }
