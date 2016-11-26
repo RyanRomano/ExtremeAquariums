@@ -100,11 +100,11 @@ public class LivePlant extends TankComponent {
             increaseHardness();
         }
         else {
-            if(Water.hardness + this.hardnessIncreaseFactor <= Water.MAX_HARDNESS){
-                Water.hardness += this.hardnessIncreaseFactor;
+            if(Water.hardness - this.hardnessIncreaseFactor >= Water.MIN_HARDNESS){
+                Water.hardness -= this.hardnessIncreaseFactor;
             }
             else {
-                Water.hardness = Water.MAX_HARDNESS;
+                Water.hardness = Water.MIN_HARDNESS;
             }
 
             if (Water.o2 - this.o2IncreaseFactor >= Water.MIN_O2) {
