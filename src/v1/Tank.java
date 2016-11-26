@@ -1,5 +1,8 @@
 package v1;
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 
 public class Tank {
@@ -77,7 +80,6 @@ public class Tank {
             return true;
         }
         else {
-            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot add");
             return false;
         }
     }
@@ -87,7 +89,9 @@ public class Tank {
             return true;
         }
         else {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Not enough space left in the tank.");
             return false;
+
         }
     }
     public boolean checkWaterCompatability(Fish fish){
@@ -97,6 +101,9 @@ public class Tank {
         }
         else if (fish instanceof SaltwaterFish && !water.isFreshWater()){
             isCompatible = true;
+        }
+        else {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Fish incompatible with water type.");
         }
         return isCompatible;
     }
@@ -111,7 +118,10 @@ public class Tank {
             return true;
         }
         else {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Water chemicals out of balance.");
+
             return false;
+
         }
     }
 
@@ -124,6 +134,7 @@ public class Tank {
                         compatible = true;
                     } else {
                         compatible = false;
+                        JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Incompatible behavior type.");
                         break;
                     }
                 }
@@ -145,7 +156,6 @@ public class Tank {
             Water.nh4 -= fish.getNh4IncreaseFactor();
             Water.co2 -= fish.getCo2IncreaseFactor();
             Water.o2 += fish.getO2DecreaseFactor();
-            System.out.println("fish removed");
         }else{
             //TODO tell user fish doesn't exist
         }
@@ -156,7 +166,7 @@ public class Tank {
             componentsList.add(component);
             currentVolume += component.getVolume();
         }else{
-            System.out.println("Tank is full");
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Not enough space left in the tank.");
         }
     }
 

@@ -1,6 +1,5 @@
 package v1;
 
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
  * Created by ryan on 11/8/16.
  */
 public class TankGUI {
+    private JFrame frame;
     private Tank tank;
     private ArrayList<TankComponent> components;
     private ArrayList<Fish> fish;
@@ -53,6 +53,18 @@ public class TankGUI {
     private JButton btnReset;
     private JButton btnBuild;
 
+
+    //variables for tank stats
+    JLabel lblMaxVolume;
+    JLabel lblVolume;
+    JLabel lblWaterType;
+    JLabel lblCo2;
+    JLabel lblO2;
+    JLabel lblNh4;
+    JLabel lblPh;
+    JLabel lblHardness;
+
+
     //Color variables
     Color clrBg = new Color(236, 236, 236);
     Color clrSecondary = new Color(108, 122, 137);
@@ -79,7 +91,7 @@ public class TankGUI {
     public void makeFrame(){
 //--------------------------------TOP LEVEL SETTINGS--------------------------
 
-        JFrame frame = new JFrame("Acme Aquariums");
+        this.frame = new JFrame("Acme Aquariums");
         frame.setPreferredSize(new Dimension(1200, 700));
         frame.setMinimumSize(new Dimension(1200, 700));
         container = frame.getContentPane();
@@ -298,11 +310,15 @@ public class TankGUI {
 //--------------------------------------------------------------------------------------
 //-------------------------------TANK CONTENTS PANEL------------------------------------
 //--------------------------------------------------------------------------------------
+        JLabel lblYourTank = new JLabel("Your Tank Contents");
+        this.setLightText(lblAddToTank);
+        panel2.add(lblYourTank);
         this.pnlYourTank = new JPanel();
         pnlYourTank.setLayout(new FlowLayout());
         pnlYourTank.setPreferredSize(new Dimension(290, 536));
+
         panel2.add(pnlYourTank);
-        JLabel lblYourTank = new JLabel("Your Tank Contents");
+
         JPanel pnlTankTitle = new JPanel();
         pnlTankTitle.add(lblYourTank);
         pnlYourTank.add(pnlTankTitle);
@@ -336,32 +352,31 @@ public class TankGUI {
         pnlTankStats.setPreferredSize(new Dimension(280, 95));
         pnlTankStats.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 
-        //Labels for tank Stats
-        JLabel lblMaxVolume = new JLabel("Tank Volume: " + tank.getTankVolume());
-        pnlTankStats.add(lblMaxVolume);
-        JLabel lblVolume = new JLabel("Volume Available: " + (tank.getTankVolume() - tank.getCurrentVolume()));
-        pnlTankStats.add(lblVolume);
+        //Change tank stats
+        this.lblMaxVolume = new JLabel("Tank Volume: " + tank.getTankVolume());
+        this.lblVolume = new JLabel("Volume Available: " + (tank.getTankVolume() - tank.getCurrentVolume()));
         String waterTypeString = "";
         if(tank.getWater().isFreshWater()){
             waterTypeString = "Freshwater";
         }else if(!tank.getWater().isFreshWater()){
             waterTypeString = "Saltwater";
         }
-        JLabel lblWaterType = new JLabel("Water Type: " + waterTypeString);
+        this.lblWaterType = new JLabel("Water Type: " + waterTypeString);
+        this.lblCo2 = new JLabel("CO2 Level: " + Water.getCo2());
+        this.lblO2 = new JLabel("O2 Level: " + Water.getO2());
+        this.lblNh4 = new JLabel("NH4 Level: " + Water.getNh4());
+        this.lblPh = new JLabel("PH Level: " + Water.getpH());
+        this.lblHardness = new JLabel("Water Hardness: " + Water.getHardness());
+
+        //Add tank stats to panel
+        pnlTankStats.add(lblMaxVolume);
+        pnlTankStats.add(lblVolume);
         pnlTankStats.add(lblWaterType);
-        JLabel lblCo2 = new JLabel("CO2 Level: " + Water.getCo2());
         pnlTankStats.add(lblCo2);
-        JLabel lblO2 = new JLabel("O2 Level: " + Water.getO2());
         pnlTankStats.add(lblO2);
-        JLabel lblNh4 = new JLabel("NH4 Level: " + Water.getNh4());
         pnlTankStats.add(lblNh4);
-        JLabel lblPh = new JLabel("PH Level: " + Water.getpH());
         pnlTankStats.add(lblPh);
-        JLabel lblHardness = new JLabel("Water Hardness: " + Water.getHardness());
         pnlTankStats.add(lblHardness);
-
-
-
 
         pnlTankList.add(tankScroll);
         pnlYourTank.add(pnlTankList);
@@ -377,6 +392,8 @@ public class TankGUI {
         this.btnBuild = new JButton("Build");
         this.setButtonLook(btnBuild);
         pnlBuild.add(btnBuild);
+        frame.repaint();
+        frame.revalidate();
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -424,8 +441,9 @@ public class TankGUI {
                 model.addElement(tank.getComponentsList().get(i).getComponentName());
             }
 
-            container.validate();
-            container.repaint();
+            updateChemicals();
+            frame.validate();
+            frame.repaint();
 
         }
     };
@@ -450,8 +468,9 @@ public class TankGUI {
                 model.addElement(tank.getComponentsList().get(i).getComponentName());
             }
 
-            container.validate();
-            container.repaint();
+            updateChemicals();
+            frame.validate();
+            frame.repaint();
 
         }
     };
@@ -479,6 +498,9 @@ public class TankGUI {
 
             selectedTankIndex = -1;
 
+            updateChemicals();
+            frame.validate();
+            frame.repaint();
         }
     };
 
@@ -554,6 +576,10 @@ public class TankGUI {
                 JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "200 units");
 
             }
+
+            updateChemicals();
+            frame.validate();
+            frame.repaint();
         }
     };
 
@@ -572,6 +598,10 @@ public class TankGUI {
                 JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Saltwater");
 
             }
+
+            updateChemicals();
+            frame.validate();
+            frame.repaint();
         }
     };
 
@@ -589,7 +619,13 @@ public class TankGUI {
             Water.co2 = 50;
             Water.nh4 = 50;
             Water.o2 = 50;
+            Water.hardness = 50;
+            Water.pH = 7;
             tank.setCurrentVolume(0);
+
+            updateChemicals();
+            frame.validate();
+            frame.repaint();
         }
     };
 
@@ -639,11 +675,10 @@ public class TankGUI {
 
 
             //TODO chemicals for pre-built tank
-//            selectedTankIndex = -1;
-//            Water.co2 = 50;
-//            Water.nh4 = 50;
-//            Water.o2 = 50;
-//            tank.setCurrentVolume(0);
+            updateChemicals();
+            frame.validate();
+            frame.repaint();
+
         }
     };
 
@@ -688,6 +723,28 @@ public class TankGUI {
 
         label.setForeground(clrDark);
         label.setFont(new Font("Helvetica", Font.BOLD, 14));
+    }
+
+    //Method to update chemicals
+    private void updateChemicals(){
+
+        this.lblMaxVolume.setText("Tank Volume: " + tank.getTankVolume());
+        this.lblVolume.setText("Volume Available: " + (tank.getTankVolume() - tank.getCurrentVolume()));
+        String waterTypeString = "";
+        if(tank.getWater().isFreshWater()){
+            waterTypeString = "Freshwater";
+        }else if(!tank.getWater().isFreshWater()){
+            waterTypeString = "Saltwater";
+        }
+        this.lblWaterType.setText("Water Type: " + waterTypeString);
+        this.lblCo2.setText("CO2 Level: " + Water.getCo2());
+        this.lblO2.setText("O2 Level: " + Water.getO2());
+        this.lblNh4.setText("NH4 Level: " + Water.getNh4());
+        this.lblPh.setText("PH Level: " + Water.getpH());
+        this.lblHardness.setText("Water Hardness: " + Water.getHardness());
+
+        frame.validate();
+        frame.repaint();
     }
 
 }
