@@ -801,11 +801,18 @@ public class TankGUI {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            if(tank.getFishList().isEmpty() && tank.getComponentsList().isEmpty()){
+                try {
+                    throw new EmptyTankException();
+                } catch (EmptyTankException e1) {
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Tank is empty. Cannot build.");
+                }
+            }else{
+                //Create a new output file
+                OutputFile file = new OutputFile(tank);
+            }
 
-            //TODO action for when build button is clicked
-            //Create output file with contents in tank (fish/components)
-            //And the tank size/chemical levels
-            //Save to the users computer
+
         }
     };
 
