@@ -1,11 +1,5 @@
 package v2;
-
-
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -241,7 +235,7 @@ public class TankGUI {
 
         //The fish statistics pane
         JPanel pnlFishStats = new JPanel();
-        this.lblFishStats = new JLabel("Freshwater, Bottom swimmer, Aggressive");
+        this.lblFishStats = new JLabel("Select a fish to add");
         //TODO Change with action listener
         pnlFishStats.add(lblFishStats);
 
@@ -288,7 +282,7 @@ public class TankGUI {
 
         //The components statistics pane
         JPanel pnlCompStats = new JPanel();
-        this.lblCompStats = new JLabel("Powerful filter. Recommended for large tanks.");
+        this.lblCompStats = new JLabel("Select a component to add");
         //TODO Change with action listener
         pnlCompStats.add(lblCompStats);
 
@@ -516,8 +510,8 @@ public class TankGUI {
                 if(fish.get(i).getFishName().equals(selectedFish)){
                     currentFish = fish.get(i);
                     lblFishStats.setText("Size: " + String.valueOf(fish.get(i).getVolume()) +
-                            " Level: " + fish.get(i).getSwimmingLevel() +
-                            " Agression: " + fish.get(i).getAggressionLevel());
+                            " - Level: " + swimLevelToString(fish.get(i).getSwimmingLevel()) +
+                            " - Aggression: " + aggroLevelToString(fish.get(i).getAggressionLevel()));
 
                 }
             }
@@ -750,9 +744,12 @@ public class TankGUI {
 
             //Set tank chemicals to defaults
             selectedTankIndex = -1;
-            Water.co2 = 50;
-            Water.nh4 = 50;
-            Water.o2 = 50;
+            tank.getWater().setCo2(50);
+            //Water.co2 = 50;
+            tank.getWater().setNh4(50);
+            //Water.nh4 = 50;
+            tank.getWater().setO2(50);
+            //Water.o2 = 50;
             tank.setCurrentVolume(0);
 
             //Remove everything already added to the tank
@@ -766,16 +763,17 @@ public class TankGUI {
             radioFreshwater.setSelected(true);
 
             //Set to size large
-            tank.setTankVolume(150);
-            radioButtonLarge.setSelected(true);
+            tank.setTankVolume(100);
+            radioButtonSmall.setSelected(true);
 
             //Add fish to tank
             tank.addFish(fish.get(0));		//Add gold fish
 
             //Add components to tank
+            tank.addComponent(components.get(10));
             tank.addComponent(components.get(0));
-            tank.addComponent(components.get(1));
-            tank.addComponent(components.get(2));
+            tank.addComponent(components.get(3));
+
 
 
             //Update JList for fish and components
@@ -865,6 +863,38 @@ public class TankGUI {
 
         frame.validate();
         frame.repaint();
+    }
+
+    //Method for swimming level string
+    private String swimLevelToString(int level){
+
+        switch(level){
+            case 0:
+                return "Bottom";
+            case 1:
+                return "Mid";
+            case 2:
+                return "Top";
+            default:
+                return "???";
+        }
+
+    }
+
+    //Method for aggression level string
+    private String aggroLevelToString(int level){
+
+        switch(level){
+            case 0:
+                return "Peaceful";
+            case 1:
+                return "Medium";
+            case 2:
+                return "High";
+            default:
+                return "???";
+        }
+
     }
 
 }
