@@ -1,40 +1,53 @@
 package v2;
-
 import java.util.ArrayList;
-
 /**
- * Created by ryan on 11/8/16.
+ * Driver class that runs the Extreme Aquarium Program
+ * Contains 2 Polymorphic Array Lists one for tank components & one for fish
+ * Also has the GUI for building your own tank
  */
 public class Driver {
+    /**
+     * Main method that runs the aquarium builder program.
+     * Contains a tank, an array list for fish,
+     * an array list for tank components, and a tank GUI
+     */
     public static void main(String[] args) {
         Tank tank = new Tank(125, true);
         ArrayList<Fish> fishes = createFishList();
         ArrayList<TankComponent> tankComponents = createComponentList();
         TankGUI tankGUI = new TankGUI(tank, tankComponents,fishes);
-
-
     }
-
+    /**
+     * Array List of tank components is created, populated, and then returned.
+     * @return tankComponents
+     */
     public static ArrayList<TankComponent> createComponentList(){
         ArrayList<TankComponent> tankComponents = new ArrayList<>();
-
-        //Filters
+        /**
+         * Filters that can be put into the tank.
+         */
         TankComponent smallFilter = new Filter(30, "ACME Mini Filter");
         TankComponent averageFilter = new Filter(50, "ACME Filter");
         TankComponent largeFilter = new Filter(70, "ACME 5000 Filter");
 
-        //Airpumps
+        /**
+         * Air pumps that can be put into the tank.
+         */
         TankComponent smallAirPump = new Airpump(30, "ACME Mini Airpump");
         TankComponent averageAirPump = new Airpump(50, "ACME Airpump");
         TankComponent largeAirPump = new Airpump(70, "ACME 5000 Airpump");
 
-        //Live plants
+        /**
+         * Live plants that can be put into the tank.
+         */
         TankComponent seaWeedPlant = new LivePlant(10, "Sea Weed (Live Plant)", 15, 15, 5);
         TankComponent bambooPlant = new LivePlant(30, "Bamboo (Live Plant)", 30, 30, 10);
         TankComponent frillPlant = new LivePlant(20, "Frill Plant (Live Plant)", 20, 20, 5);
         TankComponent javaPlant = new LivePlant(10, "Java Fern (Live Plant)", 10, 10, 5);
 
-        //Decorations
+        /**
+         * Decorations that can be put into the tank.
+         */
         TankComponent decorationRock = new Decoration(10, "Rock");
         TankComponent cherryPlant = new Decoration(15, "Cherry Blossom Tree (Artificial Plant)");
         TankComponent calypsoPlant = new Decoration(20, "Calypso Plant (Artificial Plant)");
@@ -44,21 +57,32 @@ public class Driver {
         TankComponent shipDeco = new Decoration(25, "Ship Wreck Ornament");
         TankComponent coralCaveDeco = new Decoration(30, "Coral Reef Cave Ornament");
 
-        //Add components to list
-        //filters
+        /**
+         * All tanks components are then added to the tankComponenets list.
+         */
+
+        /**
+         * Filters
+         */
         tankComponents.add(smallFilter);
         tankComponents.add(averageFilter);
         tankComponents.add(largeFilter);
-        //airpumps
+        /**
+         * Air pumps
+         */
         tankComponents.add(smallAirPump);
         tankComponents.add(averageAirPump);
         tankComponents.add(largeAirPump);
-        //live plants
+        /**
+         * Live Plants
+         */
         tankComponents.add(seaWeedPlant);
         tankComponents.add(bambooPlant);
         tankComponents.add(frillPlant);
         tankComponents.add(javaPlant);
-        //decorations
+        /**
+         * Decorations
+         */
         tankComponents.add(decorationRock);
         tankComponents.add(cherryPlant);
         tankComponents.add(calypsoPlant);
@@ -68,15 +92,29 @@ public class Driver {
         tankComponents.add(shipDeco);
         tankComponents.add(coralCaveDeco);
 
-
         return tankComponents;
     }
-
+    /**
+     * ArrayList of fish is created, populated, and then returned.
+     * @return fishList
+     */
     public static ArrayList<Fish> createFishList(){
         ArrayList<Fish> fishList = new ArrayList<>();
 
-        //Fish template new Fresh/SaltwaterFish(volume, aggroLevel, swimLevel, o2Dec, co2Inc, nh4Inc, fishName)
-        //Freshwater fish options
+        /**
+         * Fish template for creating a new Fresh/SaltwaterFish
+         * ( volume - int size,
+         * 	aggroLevel - int aggression lvl of fish,
+         * 	swimLevel - int swimming lvl of fish,
+         * 	o2Dec - int oxygen decrease factor of fish
+         * 	co2Inc - int carbon dioxide increase factor of fish,
+         * 	nh4Inc - int ammonia increase factor of fish,
+         * 	fishName - String for the name of the fish)
+         */
+
+        /**
+         * Fresh water fish options that can be added to the fish tank.
+         */
         Fish goldFish = new FreshwaterFish(10, 0, 1, 10, 10, 10, "Goldfish");
         Fish coryCatFish = new FreshwaterFish(5, 0, 0, 10, 8, 8, "Albino Cory Catfish");
         Fish algaeEater = new FreshwaterFish(15, 0, 0, 10, 8, 10, "Algae Eater");
@@ -88,16 +126,23 @@ public class Driver {
         Fish halfBeak = new FreshwaterFish(5, 0, 2, 8, 8, 8, "Half Beak");
         Fish gourami = new FreshwaterFish(5, 0, 2, 5, 5, 5, "Blue Gourami");
 
-        //Saltwater fish options
-        Fish clownFish = new SaltwaterFish(5, 0, 1, 15, 15, 15, "Clown Fish");
-        Fish pufferFish = new SaltwaterFish(10, 2, 1, 20, 20, 20, "Puffer Fish");
-        Fish squirrelFish = new SaltwaterFish(5, 0, 2, 10, 10, 10, "Stripped Squirrelfish");
-        Fish butterflyFish = new SaltwaterFish(10, 0, 1, 15, 15, 10, "Raccoon Butterflyfish");
-        Fish lionFish = new SaltwaterFish(5, 1, 0, 10, 10, 10, "Fuzzy Dwarf Lionfish");
+        /**
+         * Salt water fish options that can be added to the fish tank.
+         */
+        Fish clownFish = new SaltwaterFish(5, 0, 1, 10, 10, 10, "Clown Fish");
+        Fish pufferFish = new SaltwaterFish(10, 2, 1, 10, 10, 10, "Puffer Fish");
+        Fish squirrelFish = new SaltwaterFish(5, 0, 2, 8, 8, 8, "Stripped Squirrelfish");
+        Fish butterflyFish = new SaltwaterFish(10, 0, 1, 10, 10, 8, "Raccoon Butterflyfish");
+        Fish lionFish = new SaltwaterFish(5, 1, 0, 8, 8, 8, "Fuzzy Dwarf Lionfish");
         Fish eel = new SaltwaterFish(35, 2, 0, 20, 20, 20, "Jeweled Moray Eel");
         Fish triggerFish = new SaltwaterFish(25, 2, 1, 15, 15, 15, "Pinktail Triggerfish");
+        /**
+         * All species of fish are then added to the fishList.
+         */
 
-        //Add fish to list
+        /**
+         * Fresh water fish options available.
+         */
         fishList.add(goldFish);
         fishList.add(coryCatFish);
         fishList.add(algaeEater);
@@ -109,6 +154,9 @@ public class Driver {
         fishList.add(halfBeak);
         fishList.add(gourami);
 
+        /**
+         * Salt water fish options available.
+         */
         fishList.add(clownFish);
         fishList.add(pufferFish);
         fishList.add(squirrelFish);
@@ -116,7 +164,6 @@ public class Driver {
         fishList.add(lionFish);
         fishList.add(eel);
         fishList.add(triggerFish);
-
         return fishList;
     }
 }
